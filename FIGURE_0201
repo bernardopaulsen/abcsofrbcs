@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Mar 14 14:11:32 2018
+
+@author: bernardopaulsen
+"""
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+class OLG():
+    
+    def __init__(self,
+                 capital = 0.1,
+                 k = 4,
+                 theta = 0.36):
+        
+        self.capital = capital
+        self.k = k
+        self.theta = theta
+        
+    def nextcapital(self):
+        
+        return self.k * self.capital ** self.theta
+    
+    
+# FIGURE 2.1
+modelo = OLG(capital = np.linspace(0,10,100))
+plt.plot(modelo.capital, modelo.nextcapital())
+plt.plot(modelo.capital,modelo.capital)
+plt.show()

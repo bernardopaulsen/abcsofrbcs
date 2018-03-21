@@ -1,0 +1,72 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Mar 14 14:16:00 2018
+
+@author: bernardopaulsen
+"""
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+class Solow():
+    
+    def __init__(self,
+                 depreciation = 0.1,
+                 savings = 0.2,
+                 labourgrowth = 0.02,
+                 capital = 2.3,
+                 theta = 0.36,
+                 sto = 0,
+                 log = 2.3):
+        
+        self.depreciation = depreciation
+        self.savings = savings
+        self.labourGrowth = labourgrowth
+        self.capital = capital
+        self.theta = theta
+        self.sto = sto
+        self.log = log
+        
+    def function(self):
+        
+        return self.capital ** self.theta
+        
+    def nextCapital(self):
+        
+        return ((1 - self.depreciation) * self.capital + self.savings * 1 * 2.71828182846 ** self.sto * self.function())/(1 + self.labourGrowth)
+ 
+    def nextLog(self):
+        
+        b = (1 + self.theta * self.labourGrowth - self.depreciation*(1-self.theta)) / (1 + self.labourGrowth)
+        c = (self.depreciation + self.labourGrowth) / (1 + self.labourGrowth)
+        
+        return (b * self.log + c * self.sto)
+    
+    def update(self):
+        
+        self.capital = self.nextCapital()
+        self.log = self.nextLog()        
+        
+        self.sto = np.random.normal(0, 0.2)
+        
+            
+    def timeSeries(self, depth = 100):
+        
+        data = []
+        logo = []
+        
+        for i in range(depth):
+            
+            data.append(self.capital)
+            logo.append(self.log)
+            
+            self.update()
+            
+        plt.plot(data)
+        plt.plot(logo)
+ 
+# Simulation of stochastic model
+modelo = Solow()
+modelo.timeSeries()
+plt.show()    
